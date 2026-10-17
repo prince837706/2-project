@@ -1,0 +1,70 @@
+
+{% extends "base.html" %}
+{% block title %}My Profile | AURÉL{% endblock %}
+
+{% block content %}
+<section class="profile-page">
+    <span class="eyebrow">YOUR PERSONAL SPACE</span>
+    <h1>My profile<span class="gold">.</span></h1>
+    <p class="muted">Keep your details up to date for a smoother checkout.</p>
+
+    <div class="profile-card">
+        <div class="profile-banner">
+            <span class="eyebrow">AURÉL MEMBER</span>
+            <span class="member-number">MEMBER #{{ user.id }}</span>
+        </div>
+
+        <div class="profile-body">
+            <div class="profile-avatar">
+                {% if user.profile_picture %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ user.profile_picture) }}"
+                         alt="Profile picture">
+                {% else %}
+                    <span>{{ user.name[0]|upper }}</span>
+                {% endif %}
+            </div>
+
+            <div class="profile-details">
+                <h2>{{ user.name }}</h2>
+                <p class="muted">Your AURÉL account</p>
+
+                <div class="details-grid">
+                    <div>
+                        <span class="eyebrow">FULL NAME</span>
+                        <p>{{ user.name }}</p>
+                    </div>
+                    <div>
+                        <span class="eyebrow">CONTACT</span>
+                        <p>{{ user.contact }}</p>
+                    </div>
+                    <div class="address-detail">
+                        <span class="eyebrow">DELIVERY ADDRESS</span>
+                        <p>{{ user.address }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <details class="edit-panel">
+            <summary>Edit profile details ✎</summary>
+            <form method="POST" enctype="multipart/form-data">
+                <label>Full name</label>
+                <input name="name" value="{{ user.name }}" required maxlength="100">
+
+                <label>Contact number</label>
+                <input name="contact" type="tel" value="{{ user.contact }}"
+                       required maxlength="20">
+
+                <label>Address</label>
+                <textarea name="address" required maxlength="300">{{ user.address }}</textarea>
+
+                <label>Change profile picture (optional)</label>
+                <input name="profile_picture" type="file"
+                       accept=".jpg,.jpeg,.png,.webp">
+
+                <button class="btn btn-dark" type="submit">Save changes ✓</button>
+            </form>
+        </details>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,76 @@
+
+{% extends "base.html" %}
+{% block title %}Shop | AURÉL{% endblock %}
+
+{% block content %}
+<section class="welcome-strip">
+    <div>
+        <span class="eyebrow">YOUR PERSONAL COLLECTION</span>
+        <h1>Hurray, {{ user.name.split()[0] }}! <span class="gold">✦</span></h1>
+        <p>Your next favourite bottle is waiting for you.</p>
+    </div>
+
+    <a href="{{ url_for('profile') }}" class="profile-mini">
+        {% if user.profile_picture %}
+            <img src="{{ url_for('static', filename='uploads/' ~ user.profile_picture) }}"
+                 alt="Your profile">
+        {% else %}
+            <span class="avatar-letter">{{ user.name[0]|upper }}</span>
+        {% endif %}
+        <span>
+            <strong>{{ user.name }}</strong>
+            <small>View profile ↗</small>
+        </span>
+    </a>
+</section>
+
+<section class="hero">
+    <div class="hero-copy">
+        <span class="eyebrow">THE SIGNATURE COLLECTION</span>
+        <h2>Carry your<br>own <em>standard.</em></h2>
+        <p>Premium bottles for people who appreciate the little details.</p>
+        <a href="#collection" class="btn btn-light">Explore collection ↓</a>
+    </div>
+    <div class="hero-visual">
+        <div class="hero-circle"></div>
+        <span class="hero-label">DESIGNED TO LAST</span>
+        <div class="hero-bottle">A<span>É</span></div>
+    </div>
+</section>
+
+<section id="collection" class="collection">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">CURATED FOR YOU</span>
+            <h2>The bottle edit<span class="gold">.</span></h2>
+        </div>
+        <p>Simple forms. Premium finishes.</p>
+    </div>
+
+    <div class="product-grid">
+        {% for product in products %}
+        <article class="product-card">
+            <div class="product-image">
+                <img src="{{ product.image_url }}" alt="{{ product.name }}"
+                     loading="lazy">
+                <span class="product-tag">AURÉL SELECT</span>
+            </div>
+            <div class="product-info">
+                <div>
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                </div>
+                <strong class="price">₹{{ "%.2f"|format(product.price) }}</strong>
+            </div>
+            <form action="{{ url_for('add_to_cart', product_id=product.id) }}"
+                  method="POST">
+                <button class="btn btn-dark full" type="submit"
+                        {% if product.stock < 1 %}disabled{% endif %}>
+                    {% if product.stock > 0 %}Add to cart +{% else %}Sold out{% endif %}
+                </button>
+            </form>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,39 @@
+
+{% extends "base.html" %}
+{% block title %}Order Confirmed | AURÉL{% endblock %}
+
+{% block content %}
+<section class="success-page">
+    <div class="success-symbol">✓</div>
+    <span class="eyebrow">A LITTLE LUXURY IS ON ITS WAY</span>
+    <h1>Congratulations<span class="gold">!</span></h1>
+    <h2>Your order is confirmed.</h2>
+    <p>Thank you for choosing AURÉL. Your premium bottle selection is reserved.</p>
+
+    <div class="success-receipt">
+        <div>
+            <span class="eyebrow">ORDER NUMBER</span>
+            <strong>#AUR-{{ order.id }}</strong>
+        </div>
+        <div>
+            <span class="eyebrow">ORDER STATUS</span>
+            <strong>{{ order.status }}</strong>
+        </div>
+        <div>
+            <span class="eyebrow">ORDER TOTAL</span>
+            <strong>₹{{ "%.2f"|format(order.total) }}</strong>
+        </div>
+        <hr>
+        {% for item in order.items %}
+        <div class="summary-line">
+            <span>{{ item.product_name }} × {{ item.quantity }}</span>
+            <strong>₹{{ "%.2f"|format(item.unit_price * item.quantity) }}</strong>
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ url_for('home') }}" class="btn btn-dark">
+        Back to collection →
+    </a>
+</section>
+{% endblock %}

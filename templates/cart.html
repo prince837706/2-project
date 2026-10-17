@@ -1,0 +1,63 @@
+
+{% extends "base.html" %}
+{% block title %}Your Cart | AURÉL{% endblock %}
+
+{% block content %}
+<section class="cart-page">
+    <span class="eyebrow">YOUR SELECTION</span>
+    <h1>The cart<span class="gold">.</span></h1>
+    <p class="muted">Good choices deserve a beautiful finish.</p>
+
+    {% if items %}
+    <div class="cart-layout">
+        <div class="cart-items">
+            {% for item in items %}
+            <article class="cart-item">
+                <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
+                <div class="cart-item-info">
+                    <h3>{{ item.product.name }}</h3>
+                    <p>{{ item.quantity }} × ₹{{ "%.2f"|format(item.product.price) }}</p>
+                    <strong>₹{{ "%.2f"|format(item.subtotal) }}</strong>
+                    <form method="POST"
+                          action="{{ url_for('remove_from_cart', product_id=item.product.id) }}">
+                        <button class="remove-btn" type="submit">Remove</button>
+                    </form>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        <aside class="order-summary">
+            <span class="eyebrow">ORDER SUMMARY</span>
+            <h2>Your total</h2>
+            <div class="summary-line">
+                <span>Subtotal</span>
+                <strong>₹{{ "%.2f"|format(total) }}</strong>
+            </div>
+            <div class="summary-line">
+                <span>Delivery</span>
+                <span>Calculated separately</span>
+            </div>
+            <div class="summary-line total-line">
+                <span>Order total</span>
+                <strong>₹{{ "%.2f"|format(total) }}</strong>
+            </div>
+
+            <form action="{{ url_for('checkout') }}" method="POST">
+                <button class="btn btn-dark full" type="submit">
+                    Confirm order →
+                </button>
+            </form>
+            <a class="continue-link" href="{{ url_for('home') }}">← Continue shopping</a>
+        </aside>
+    </div>
+    {% else %}
+    <div class="empty-cart">
+        <div class="empty-icon">○</div>
+        <h2>A little space for something special.</h2>
+        <p>Your cart is empty. Discover your next favourite bottle.</p>
+        <a href="{{ url_for('home') }}" class="btn btn-dark">Explore bottles →</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

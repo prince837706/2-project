@@ -1,0 +1,54 @@
+
+{% extends "base.html" %}
+{% block title %}Create Account | AURÉL{% endblock %}
+
+{% block content %}
+<section class="auth-layout">
+    <div class="auth-story">
+        <span class="eyebrow">THE ART OF HYDRATION</span>
+        <h1>Make every sip<br>feel <em>special.</em></h1>
+        <p>Thoughtfully designed bottles. Timeless style. Everyday luxury.</p>
+        <div class="story-mark">A / 01</div>
+    </div>
+
+    <div class="form-card">
+        <span class="eyebrow">YOUR JOURNEY STARTS HERE</span>
+        <h2>Create your account</h2>
+        <p class="muted">Join the AURÉL community.</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            <label>Full name</label>
+            <input name="name" required maxlength="100"
+                   placeholder="Enter your full name">
+
+            <label>Contact number</label>
+            <input name="contact" type="tel" required maxlength="20"
+                   placeholder="Your mobile number">
+
+            <label>Delivery address</label>
+            <textarea name="address" required maxlength="300"
+                      placeholder="House, street, city, PIN code"></textarea>
+
+            <label>Profile picture <span class="muted">(optional)</span></label>
+            <input name="profile_picture" type="file"
+                   accept=".jpg,.jpeg,.png,.webp">
+
+            <label>Password</label>
+            <input name="password" type="password" required minlength="8"
+                   autocomplete="new-password" placeholder="Minimum 8 characters">
+
+            <label>Confirm password</label>
+            <input name="confirm_password" type="password" required minlength="8"
+                   autocomplete="new-password" placeholder="Re-enter password">
+
+            <button class="btn btn-dark full" type="submit">
+                Create my account →
+            </button>
+        </form>
+
+        <p class="form-bottom">Already a member?
+            <a href="{{ url_for('login') }}">Log in</a>
+        </p>
+    </div>
+</section>
+{% endblock %}
